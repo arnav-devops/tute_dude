@@ -24,18 +24,30 @@
         <div class="task-list" id="taskList"></div>
     </div>
     <script>
-        document.getElementById("todoForm").addEventListener("submit", function(event) {
+        async function generateHash(itemID, itemName) {
+            const text = itemID + itemName;
+            const encoder = new TextEncoder();
+            const data = encoder.encode(text);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+        }
+
+        document.getElementById("todoForm").addEventListener("submit", async function(event) {
             event.preventDefault();
             let itemID = document.getElementById("itemID").value;
-            let uuid = crypto.randomUUID(); // Generate UUID
+            let uuid = crypto.randomUUID(); // Generated UUID
             let name = document.getElementById("itemName").value;
             let desc = document.getElementById("itemDescription").value;
             let taskList = document.getElementById("taskList");
+
+            let hash = await generateHash(itemID, name); // Generated Hash
 
             let task = document.createElement("div");
             task.className = "task";
             task.innerHTML = `<strong>ID: ${itemID}</strong><br>
                               <strong>UUID: ${uuid}</strong><br>
+                              <strong>Hash: ${hash}</strong><br>
                               <strong>${name}</strong><p>${desc}</p>`;
             
             taskList.appendChild(task);
