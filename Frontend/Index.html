@@ -16,6 +16,7 @@
     <div class="container">
         <h2>To-Do List</h2>
         <form id="todoForm">
+            <input type="text" id="itemID" placeholder="Item ID" required>
             <input type="text" id="itemName" placeholder="Item Name" required>
             <textarea id="itemDescription" placeholder="Item Description" required></textarea>
             <button type="submit">Add Item</button>
@@ -25,12 +26,16 @@
     <script>
         document.getElementById("todoForm").addEventListener("submit", function(event) {
             event.preventDefault();
+            let itemID = document.getElementById("itemID").value;
             let name = document.getElementById("itemName").value;
             let desc = document.getElementById("itemDescription").value;
             let taskList = document.getElementById("taskList");
+
             let task = document.createElement("div");
             task.className = "task";
-            task.innerHTML = `<strong>${name}</strong><p>${desc}</p>`;
+            task.innerHTML = `<strong>ID: ${itemID}</strong><br>
+                              <strong>${name}</strong><p>${desc}</p>`;
+            
             taskList.appendChild(task);
             document.getElementById("todoForm").reset();
         });
