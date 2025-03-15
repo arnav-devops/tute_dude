@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Data</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        form { max-width: 300px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
+        input, button { width: 100%; padding: 10px; margin: 10px 0; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h2>Submit Data</h2>
+    <form id="dataForm">
+        <input type="text" id="name" name="name" placeholder="Enter Name" required>
+        <input type="number" id="age" name="age" placeholder="Enter age" required>
+        <button type="submit">Submit</button>
+    </form>
+    <p id="message" class="error"></p>
+
+    <script>
+        document.getElementById("dataForm").addEventListener("submit", function(event) {
+            event.preventDefault(); 
+
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            const message = document.getElementById("message");
+
+            fetch("/submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, age })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = "/success"; 
+                } else {
+                    message.textContent = data.error; 
+                }
+            })
+            .catch(error => message.textContent = "An error occurred.");
+        });
+    </script>
+</body>
+</html>
