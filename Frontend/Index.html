@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .container { width: 50%; margin: auto; }
+        input, textarea, button { width: 100%; padding: 10px; margin: 5px 0; }
+        .task-list { margin-top: 20px; }
+        .task { border: 1px solid #ddd; padding: 10px; margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>To-Do List</h2>
+        <form id="todoForm">
+            <input type="text" id="itemName" placeholder="Item Name" required>
+            <textarea id="itemDescription" placeholder="Item Description" required></textarea>
+            <button type="submit">Add Item</button>
+        </form>
+        <div class="task-list" id="taskList"></div>
+    </div>
+    <script>
+        document.getElementById("todoForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let name = document.getElementById("itemName").value;
+            let desc = document.getElementById("itemDescription").value;
+            let taskList = document.getElementById("taskList");
+            let task = document.createElement("div");
+            task.className = "task";
+            task.innerHTML = `<strong>${name}</strong><p>${desc}</p>`;
+            taskList.appendChild(task);
+            document.getElementById("todoForm").reset();
+        });
+    </script>
+</body>
+</html>
