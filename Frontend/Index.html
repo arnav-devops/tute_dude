@@ -9,7 +9,7 @@
         .container { width: 50%; margin: auto; }
         input, textarea, button { width: 100%; padding: 10px; margin: 5px 0; }
         .task-list { margin-top: 20px; }
-        .task { border: 1px solid #ddd; padding: 10px; margin: 5px 0; }
+        .task { border: 1px solid #ddd; padding: 10px; margin: 5px 0; word-wrap: break-word; }
     </style>
 </head>
 <body>
@@ -27,6 +27,7 @@
         document.getElementById("todoForm").addEventListener("submit", function(event) {
             event.preventDefault();
             let itemID = document.getElementById("itemID").value;
+            let uuid = crypto.randomUUID(); // Generate UUID
             let name = document.getElementById("itemName").value;
             let desc = document.getElementById("itemDescription").value;
             let taskList = document.getElementById("taskList");
@@ -34,6 +35,7 @@
             let task = document.createElement("div");
             task.className = "task";
             task.innerHTML = `<strong>ID: ${itemID}</strong><br>
+                              <strong>UUID: ${uuid}</strong><br>
                               <strong>${name}</strong><p>${desc}</p>`;
             
             taskList.appendChild(task);
